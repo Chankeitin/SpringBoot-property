@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bnuz.mapper.UserMapper">
+
+    <select id="getRoleByUsername" resultType="java.lang.String">
+        select tr.role_name
+        from t_role_user tru
+        left join t_user tu on tu.id = tru.user_id
+        left join t_role tr on tr.role_id = tru.role_id
+        where tu.username = #{username}
+    </select>
+    <select id="findUserPageByVO" resultType="com.bnuz.dto.UserListDto">
+        select tu.id id,tu.username username,tu.nickname nickname,tr.role_name auth,tu.avatar avatar,tu.description introduction,tu.deleted deleted,
+        tu.ip_address ipAddress,tu.ip_position ipPosition,tu.create_time createTime,tu.last_login_time lastLoginTime
+        from t_user tu
+        inner join t_role_user tru on tru.user_id = tu.id
+		inner join t_role tr on tr.role_id = tru.role_id
+		${ew.customSqlSegment}
+    </select>
+</mapper>

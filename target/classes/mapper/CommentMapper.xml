@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bnuz.mapper.CommentMapper">
+
+    <select id="queryCommentList" resultType="com.bnuz.dto.CommentDto">
+        select tc.comment_id commentId,tc.user_id userId,tc.pid pid,tc.responder responder,tc.comments comments,tc.picture picture,tc.comment_address commentAddress,
+        tc.create_time createTime,tc.update_time updateTime,tt.tag_id tagId,tt.tag_name tagName,tu.username username,tu.avatar avatar
+        from t_comment tc,t_tag tt,t_tag_comment ttc,t_user tu
+        where ttc.tag_id = tt.tag_id and ttc.comment_id = tc.comment_id and tc.user_id = tu.id
+            <if test="tagId !=0 and tagId !=null and tagId !=''">
+                and ttc.tag_id = #{tagId}
+            </if>
+        order by tc.create_time desc
+    </select>
+
+    <select id="queryLastCommentByUserId" resultType="java.lang.Integer">
+        select tc.comment_id from t_comment tc where tc.user_id = #{userId} order by create_time desc limit 1
+    </select>
+</mapper>

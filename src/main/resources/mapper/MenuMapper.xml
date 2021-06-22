@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bnuz.mapper.MenuMapper">
+    <select id="queryMenuList" resultType="com.bnuz.dto.MenuDto">
+        select id,parent_id,menu_name,url,icon,type,order_num,disabled,open
+        from t_menu
+        order by order_num
+    </select>
+</mapper>
